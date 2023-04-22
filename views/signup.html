@@ -4,20 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whatsapp-signup</title>
+    <link rel="shortuct icon" type="image/x-icon" href="../GroupChat.png">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="./signUp.css">
+    <title>Sign Up</title>
 </head>
 <body>
-     <form onsubmit="signup(event)" class="sign-in-form" >
-        <input type="text" name="name" required>
-        <label for="name">Enter Username</label>
-        <input type="email" name="email" required>
-        <label for="email">Enter Email</label>
-        <input type="tel" name="tel" required>
-        <label for="tel">Phone</label>
-        <input type="password" name="password" required>
-        <label for="password">Enter Password</label>
-        <button >Sign Up</button>
-        <p>Existing User?<a href="login.html">Login</a></p>
-    </form>
+<div class="container">
+<form  id="form" class="myform">
+<h1>Sign Up</h1>
+<div id="msg"></div>
+<hr><br>
+<label class="form-label">Username</label>
+<input class="form-control" id="username" type="text" placeholder="Username" required><br>
+<label class="form-label">Email</label>
+<input class="form-control" id="email" type="email" placeholder="Email ID" required><br>
+<label class="form-label">Contact Number</label>
+<input class="form-control" id="number" type="number" placeholder="Mobile Number" required><br>
+<label class="form-label">Create Password</label>
+<input class="form-control" id="password" type="password" placeholder="Password" required><br>
+<div class="btn-div">
+<button id="btn" class="btn" type="submit">Sign up</button><br><br>
+<a href="./loginPage.html">Existing User? Login</a>
+</div>
+</form>
+</div>
+<script src="./signUp.js"></script>
 </body>
 </html>
