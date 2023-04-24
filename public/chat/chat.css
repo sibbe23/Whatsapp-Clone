@@ -1,0 +1,29 @@
+
+.tbody{
+        border-radius: 10px;
+        padding:20px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+}
+
+.currentuser{
+    margin: 10px;
+    margin-left:90%;
+    background-color: #005C4B;
+    border: 1px solid #005C4B;
+    border-radius:10px;
+    width: fit-content;
+    
+}
+tr{
+    font-size:auto;
+    margin: 10px;
+    margin-right:50%;
+    background-color:#202C33;
+    border: 1px solid #202C33;
+    border-radius:10px;
+    width: fit-content;
+    padding: 5px;
+
+}
