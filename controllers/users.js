@@ -22,17 +22,17 @@ exports.addUsers=async(req,res,next)=>{
         if(isStringInvalid(username)||isStringInvalid(email)||
         isStringInvalid(number)||isStringInvalid(password)){
 
-            return res.status(400).json({message:"Bad parameters:Something is missing"})
+            return res.status(400).json({message:"Bad parameters:Something is missing",success:false})
         }
     const saltrounds=10;
     bcrypt.hash(password,saltrounds,async(err,hash)=>{
         try{
             await User.create({username,email,number,password:hash}) 
-        res.status(201).json({message:"Successfully Created New User"});
+        res.status(201).json({message:"Successfully Created New User",success:true});
         }
         catch(err){
-        if(err){
-           err="User Already Exists! Please Login";
+        if(err.name="SequelizeUniqueConstraintError"){
+           err="User Already Exists!  Please Login";
         } 
         else{
         err="OOPS! Something Went wrong";
@@ -45,9 +45,7 @@ exports.addUsers=async(req,res,next)=>{
     }
     catch(err){
         /* console.log(err); */
-        res.status(500).json({
-            message:err
-        });
+        res.status(500).json({ message:"Something went Wrong" ,error:err,success:false });
     }
 }
 function generateAccessToken(id,name){
@@ -73,7 +71,7 @@ exports.login= async (req,res,next)=>{
               throw new Error("Something Went Wrong");
             }
             if(result===true){
-                return res.status(200).json({success:true,message:"User Logged in Successfully",token:generateAccessToken(user[0].id,user[0].username)});
+                return res.status(200).json({success:true,token:generateAccessToken(user[0].id,user[0].username)});
             }
                 else{
                 return res.status(400).json({success:false,message:"Password is invalid"});
@@ -86,4 +84,10 @@ exports.login= async (req,res,next)=>{
     }catch(err){
         return res.status(500).json({success:false,message:err});
     }     
+    }
+
+    exports.getAll=async(req,res)=>{
+        const user =await User.findAll()
+        res.send(user)
+        // console.log(user)
     }

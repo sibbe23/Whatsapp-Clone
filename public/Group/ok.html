@@ -1,0 +1,17 @@
+<button id="processButton">Process Button</button>
+<script>
+const processButton = document.getElementById("processButton");
+let isProcessing = false;
+
+processButton.addEventListener("click", function() {
+  if (!isProcessing) {
+    console.log("Text output");
+    isProcessing = true;
+    processButton.textContent = "Process";
+  } else {
+    console.log("Button processed");
+    // Perform the processing here
+  }
+});
+
+</script>
