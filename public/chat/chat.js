@@ -19,7 +19,7 @@ const adminname=document.getElementById('adminname');
 const adminbtn=document.getElementById('adminbtn')
 
 
-const socket = io('http://localhost:8000');
+const socket = io('http://54.234.48.123:8000');
 
 sendbtn.addEventListener('click',sendmessage);
 
@@ -48,7 +48,7 @@ async function sendmessage(e){
                const token=localStorage.getItem('token');
                const groupId=JSON.parse(localStorage.getItem('groupId'));
             
-               const response= await axios.post(`http://localhost:3000/chat/add-message/${groupId}`,messagedata,{headers:{"Authorization":token}})
+               const response= await axios.post(`http://54.234.48.123:3000/chat/add-message/${groupId}`,messagedata,{headers:{"Authorization":token}})
 
                console.log(response.data,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
@@ -121,7 +121,7 @@ function parseJwt (token) {
                    
 
                    console.log(lastmsgId,">>>>>>>>>>>>")
-                   const response= await axios.get(`http://localhost:3000/chat/get-message?lastmsgId=${lastmsgId}&groupId=${groupId}`);
+                   const response= await axios.get(`http://54.234.48.123:3000/chat/get-message?lastmsgId=${lastmsgId}&groupId=${groupId}`);
                    console.log(response,">>>>>>>>>>>>>")
                    lastmsgId+=parseInt(response.data.message.length);
                    console.log(lastmsgId,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
@@ -178,7 +178,7 @@ function parseJwt (token) {
             try{
 
                 const groupId=JSON.parse(localStorage.getItem('groupId'));
-                const response= await axios.get(`http://localhost:3000/group/get-members?groupId=${groupId}`);
+                const response= await axios.get(`http://54.234.48.123:3000/group/get-members?groupId=${groupId}`);
                 console.log(response);
                     
                    
@@ -205,7 +205,7 @@ function parseJwt (token) {
         try{
             const groupId=JSON.parse(localStorage.getItem('groupId'));
             const token=localStorage.getItem('token');
-            const response= await axios.delete(`http://localhost:3000/group/delete-group?groupId=${groupId}`,{headers:{"Authorization":token}});
+            const response= await axios.delete(`http://54.234.48.123:3000/group/delete-group?groupId=${groupId}`,{headers:{"Authorization":token}});
             alert(response.data.message);
             localStorage.removeItem(`messages${groupId}`);
             localStorage.removeItem(`lastmsgId${groupId}`);
@@ -243,7 +243,7 @@ function parseJwt (token) {
             console.log(formData);
             const groupId=JSON.parse(localStorage.getItem('groupId'));
             const token=localStorage.getItem('token');
-            const response=await axios.post(`http://localhost:3000/chat/sendfile/${groupId}`,formData,{headers:{"Authorization":token,'Content-Type':'multipart/form-data'}});
+            const response=await axios.post(`http://54.234.48.123:3000/chat/sendfile/${groupId}`,formData,{headers:{"Authorization":token,'Content-Type':'multipart/form-data'}});
                 console.log(response);
                 showmessage(response.data.message.username,response.data.message.message)
                 uploadedfile.value=null;
@@ -272,7 +272,7 @@ async function copyUrl() {
         try{
                 const userId = '2'
              const groupId=JSON.parse(localStorage.getItem('groupId'));
-             const response = await axios.post(`http://localhost:3000/group/makeadmin?groupId=${groupId}&userId=${userId}`)
+             const response = await axios.post(`http://54.234.48.123:3000/group/makeadmin?groupId=${groupId}&userId=${userId}`)
             adminbtn.style.display = "none";
             
         }catch(err){

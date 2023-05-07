@@ -23,7 +23,7 @@ async function login(e){
             email:email.value,
             password:password.value
         }
-        const response=await axios.post('http://localhost:3000/user/login',userdetails)
+        const response=await axios.post('http://54.234.48.123:3000/user/login',userdetails)
         form.reset();
         localStorage.setItem('token',response.data.token);
         // localStorage.setItem("id", response.data.id)

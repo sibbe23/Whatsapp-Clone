@@ -28,7 +28,7 @@ async function signup(e){
             password:password.value
         }
         console.log(userdetails)
-        const response = await axios.post('http://localhost:3000/user/signup',userdetails)
+        const response = await axios.post('http://54.234.48.123:3000/user/signup',userdetails)
         localStorage.setItem('name',username.value);
         form.reset();
         window.location.href='../Login/loginPage.html'

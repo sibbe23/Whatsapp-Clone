@@ -16,7 +16,7 @@ const memberlist = document.getElementById('memberlist')
 async function getUsers(e){
 try{
     e.preventDefault();
-    const response = await axios.get('http://localhost:3000/user/getall')
+    const response = await axios.get('http://54.234.48.123:3000/user/getall')
     for(let i=0;i<response.data.length;i++){
     memberlist.innerHTML+=JSON.stringify(response.data[i].username+`:`+response.data[i].email)+`<br>`
 }}
@@ -47,7 +47,7 @@ async function creategroup(e){
             groupname:groupName.value
         }
         const token=localStorage.getItem('token')
-        const response= await axios.post('http://localhost:3000/group/create-group',groupdetails,{headers:{"Authorization":token}})
+        const response= await axios.post('http://54.234.48.123:3000/group/create-group',groupdetails,{headers:{"Authorization":token}})
         showgroup(response.data.message);
         groupName.value='';
 
@@ -84,7 +84,7 @@ async function getgroups(){
                 window.location.href="../Login/loginPage.html"
             }
             else{
-             const response= await axios.get(`http://localhost:3000/group/get-allgroups`)
+             const response= await axios.get(`http://54.234.48.123:3000/group/get-allgroups`)
               
              for(let i=0;i<response.data.message.length;i++)
              {
@@ -107,7 +107,7 @@ async function getgroups(){
             localStorage.setItem('groupName',JSON.stringify(groupname));
             localStorage.setItem('groupId',JSON.stringify(id));
             const groupId = localStorage.getItem('groupId')
-            localStorage.setItem('link',`http://localhost:3000/signup.html?groupId=${groupId}`)
+            localStorage.setItem('link',`http://54.234.48.123:3000/signup.html?groupId=${groupId}`)
             
             window.location.href=`../chat/chat.html?groupId=${groupId}`;
         }catch(err){
