@@ -27,7 +27,7 @@ const logout = document.getElementById('logout')
 logout.addEventListener('click',logouts)
 async function logouts(){
     alert('Redirecting to Home page..')
-     window.location.replace('../group/group.html')
+     window.location.replace('../Group/group.html')
 }
 
 
