@@ -4,7 +4,7 @@ const passwordInput = document.getElementById('password')
 const form = document.getElementById('login-form')
 const msg = document.getElementById("msg-new")
 const response = document.getElementById("response")
-const url = "http://localhost:3000"
+const url = "http://52.54.87.89:3000"
 
 form.addEventListener("submit", login)
 

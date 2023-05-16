@@ -31,7 +31,7 @@ exports.forgetPassword = async (req, res) => {
                 sender,
                 to: recievers,
                 subject: "Chatsy : OTP ",
-                textContent: `<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`
+                textContent: `<a href="http://52.54.87.89:3000/password/resetpassword/${id}">Reset password</a>`
             })
         }
         res.status(200).json({ res: "Link sent!" })

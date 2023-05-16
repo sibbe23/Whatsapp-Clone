@@ -1,7 +1,7 @@
 const form = document.getElementById("my-form")
 const emailInput = document.getElementById("email")
 const closeBtn = document.getElementById("close-btn")
-const url = "http://localhost:3000"
+const url = "http://52.54.87.89:3000"
 closeBtn.addEventListener("click", () => {
     window.location.href = "../index/index.html"
 })
@@ -35,7 +35,7 @@ async function getUsers(e){
     try{
         e.preventDefault();
         const token = localStorage.getItem('token')
-        const response = await axios.get('http://localhost:3000/admin/getall',{headers:{"Authorization":token}})
+        const response = await axios.get('http://52.54.87.89:3000/admin/getall',{headers:{"Authorization":token}})
         for(let i=0;i<response.data.length;i++){
             memberlist.innerHTML+=JSON.stringify(`<h6 class="fw-bold">Name :${response.data[i].name}</h6>`+`Email :`+response.data[i].email)+`<hr>`
         }

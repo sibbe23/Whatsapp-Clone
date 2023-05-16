@@ -2,7 +2,7 @@ const form = document.getElementById("my-form")
 const groupName = document.getElementById("group-name")
 const description = document.getElementById("group-desc")
 const closeBtn = document.getElementById("close-btn")
-const url = "http://localhost:3000"
+const url = "http://52.54.87.89:3000"
 
 closeBtn.addEventListener("click", () => {
     window.location.href = "../index/index.html"

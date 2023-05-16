@@ -4,7 +4,7 @@ const phoneInput = document.getElementById("phone")
 const passwordInput = document.getElementById("password")
 const form = document.getElementById("form")
 const msg = document.getElementById('msg')
-const url = "http://localhost:3000"
+const url = "http://52.54.87.89:3000"
 
 form.addEventListener("submit", onSubmit)
 
@@ -21,9 +21,7 @@ async function onSubmit(e) {
         console.log(serverResponse)
         if (serverResponse.data.status === "success") {
             updateDom(serverResponse.data.message)
-            // setTimeout(() => {
             window.location.href = "../login/login.html"
-            // }, 2000)
 
         } else {
 

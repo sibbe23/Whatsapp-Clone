@@ -1,4 +1,4 @@
-const url = "http://localhost:3000"
+const url = "http://52.54.87.89:3000"
 const form = document.getElementById("form")
 const messageInput = document.getElementById("new-message")
 const chatList = document.querySelector('.chatbox-messages')
@@ -14,7 +14,7 @@ const memberListUl = document.querySelector(".members-list")
 const chatbox = document.querySelector('.chatbox');
 const groupContainer = document.querySelector('.group-container');
 
-const socket = io("http://localhost:8000")
+const socket = io("http://52.54.87.89:8000")
 socket.on("connect", () => {
     console.log(`youre connected with id ${socket.id}`)
 })
@@ -208,7 +208,7 @@ uploadbtn.addEventListener('click',uploadFile);
                 const formData = new FormData();
                 formData.append('file', file);
             console.log(formData);
-            const response=await axios.post(`http://localhost:3000/chat/sendfile`,formData,{
+            const response=await axios.post(`http://52.54.87.89:3000/chat/sendfile`,formData,{
                 headers: {
                   'Content-Type': 'multipart/form-data'
                 }
