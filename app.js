@@ -1,83 +1,58 @@
-
-const express=require('express');
-
-const app=express();
-
-const cors=require('cors');
-
-const bodyParser=require('body-parser');
-
-require('dotenv').config();
-
-const fileupload=require('express-fileupload');
-
-app.use(fileupload());
-
-
-app.use(cors({
-    origin:"*"
-}));
-
-
-const io = require('socket.io')(8000,{
-    cors: {
-        origin: '*',
-      }
-});
-
+const express = require('express')
+const cors = require('cors')
+const bodyParser = require("body-parser")
+require('dotenv').config()
+const path = require("path")
+const socketIO = require('socket.io')
+const app = express()
+app.use(cors({origin:"*"}))
+app.use(bodyParser.json())
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
+const io = socketIO(8000, {
+ cors: {
+     origin: '*',
+    }})
+const sequelize = require("./util/database")
+const User = require("./models/user")
+const Group = require("./models/group")
+const Message = require('./models/message')
+const GroupUser = require("./models/groupUser")
+const Forgetpassword = require("./models/forgetPasswords")
+const signupRoutes = require("./routes/signup")
+const chatRoutes = require("./routes/chatRoutes")
+const groupRoutes = require("./routes/groupRoutes")
+const adminRoutes = require("./routes/adminRoutes")
+const forgotPasswordRoute = require("./routes/forgotPassword")
+User.hasMany(Message)
+Message.belongsTo(User)
+Group.belongsToMany(User, { through: GroupUser })
+User.belongsToMany(Group, { through: GroupUser })
+Group.hasMany(Message)
+Message.belongsTo(Group)
+User.hasMany(Forgetpassword)
+Forgetpassword.belongsTo(User)
+app.use(signupRoutes)
+app.use(forgotPasswordRoute)
+app.use("/chat", chatRoutes)
+app.use("/groups", groupRoutes)
+app.use(adminRoutes)
+app.use((req, res) => {
+    let url = req.url
+    console.log(url)
+    res.sendFile(path.join(__dirname, `public/${url}`))
+})
 io.on('connection', socket => {
-    socket.on('send-message', room => {
-        console.log(room);
-        io.emit('receive-message', room);
-    });
-})
-
-app.use(bodyParser.json({extended:false}));
-
-const path = require('path');
-
-const sequelize=require('./util/database');
-
-const User=require('./models/users');
-
-const Chat=require('./models/chat');
-
-const Group=require('./models/group')
-
-const UserGroup=require('./models/usergroup');
-
-const UserRoutes=require('./routes/users');
-
-const MessageRoutes=require('./routes/chat');
-
-const GroupRoutes=require('./routes/group');
-
-
-User.hasMany(Chat);
-Chat.belongsTo(User);
-
-User.belongsToMany(Group,{through :UserGroup}); 
-Group.belongsToMany(User,{through :UserGroup});
-
-Group.hasMany(Chat);
-Chat.belongsTo(Group);
-
-
-app.use('/user',UserRoutes);
-app.use('/chat',MessageRoutes);
-app.use('/group',GroupRoutes);
-
-
-app.use((req,res)=>{
-    res.sendFile(path.join(__dirname,`public/${req.url}`))
-})
-
-app.use('/',(req,res,next)=>{
-    res.status(404).send("<h1>OOPS! Page Not Found </h1>");
+    socket.on('new-chat', message => {
+        socket.broadcast.emit('recieve', message)
+    })
 })
 
 
-sequelize.sync(/*{force:true}*/ )
-.then(()=>{
-    app.listen(3000);
-}).catch(err=>console.log(err));
+
+sequelize.sync()
+    // .sync({ force: true })
+    .then(() => {
+        app.listen(3000)
+    })
+

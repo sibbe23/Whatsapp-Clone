@@ -1,46 +1,46 @@
-const username=document.getElementById('username');
-const email=document.getElementById('email');
-const number=document.getElementById('number');
-const password=document.getElementById('password');
-const msg=document.getElementById('msg');
-const form=document.getElementById('form');
-const btn=document.getElementById('btn');
+const nameInput = document.getElementById("name")
+const emailInput = document.getElementById("email")
+const phoneInput = document.getElementById("phone")
+const passwordInput = document.getElementById("password")
+const form = document.getElementById("form")
+const msg = document.getElementById('msg')
+const url = "http://localhost:3000"
 
+form.addEventListener("submit", onSubmit)
 
-btn.addEventListener('click',signup)
-
-async function signup(e){
- try{
- e.preventDefault();
-    if(username.value===''|| email.value==='' ||number.value===''||password.value=='')
-    {
-        
-        msg.innerHTML="Please Fill All Details";
-        setTimeout(()=>{
-            msg.innerHTML="";
-        },3000)
-    }
-    else{
-        const userdetails={
-            username:username.value,
-            email:email.value,
-            number:number.value,
-            password:password.value
+async function onSubmit(e) {
+    try {
+        e.preventDefault();
+        const userData = {
+            name: nameInput.value,
+            email: emailInput.value,
+            phone: phoneInput.value,
+            password: passwordInput.value
         }
-        console.log(userdetails)
-        const response = await axios.post('http://54.234.48.123:3000/user/signup',userdetails)
-        localStorage.setItem('name',username.value);
-        form.reset();
-        window.location.href='../Login/loginPage.html'
+        const serverResponse = await axios.post(`${url}/signup`, userData);
+        console.log(serverResponse)
+        if (serverResponse.data.status === "success") {
+            updateDom(serverResponse.data.message)
+            // setTimeout(() => {
+            window.location.href = "../login/login.html"
+            // }, 2000)
+
+        } else {
+
+            console.log(serverResponse.response.data.message)
+
+        }
+    } catch (error) {
+        console.log(error.response.data.message)
+        updateDom(error.response.data.message)
     }
 }
-catch(err){
-    console.log(err);
-    msg.innerHTML=""
-  msg.innerHTML=msg.innerHTML+`<div>${err.response.data.message}</div>`;
-  setTimeout(()=>{
-    msg.innerHTML="";
-},3000)
-}
 
+function updateDom(user) {
+    msg.innerHTML = ""
+    msg.innerHTML+=`<div>${user}</div>`
+    setTimeout(()=>{
+        msg.innerHTML = ""
+    },3000)
+   
 }

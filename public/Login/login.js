@@ -1,42 +1,44 @@
-const email=document.getElementById('email');
-const password=document.getElementById('password');
-const msg=document.getElementById('msg');
-const form=document.getElementById('form');
-const btn=document.getElementById('btn');
 
+const emailInput = document.getElementById('email')
+const passwordInput = document.getElementById('password')
+const form = document.getElementById('login-form')
+const msg = document.getElementById("msg-new")
+const response = document.getElementById("response")
+const url = "http://localhost:3000"
 
+form.addEventListener("submit", login)
 
-btn.addEventListener('click',login)
-
-async function login(e){
- try{
- e.preventDefault();
-    if(email.value==='' ||password.value=='')
-    {
-        msg.innerHTML= `<a style="color:red;font-weight:bold;">Please Enter All Details`;
-        setTimeout(()=>{
-            msg.innerHTML="";
-        },3000)
-    }
-    else{
-        const userdetails={
-            email:email.value,
-            password:password.value
+async function login(e) {
+    try {
+        e.preventDefault();
+        const token = localStorage.getItem("token")
+        if (token) {
+            window.location.href = "../index/index.html"
         }
-        const response=await axios.post('http://54.234.48.123:3000/user/login',userdetails)
-        form.reset();
-        localStorage.setItem('token',response.data.token);
-        // localStorage.setItem("id", response.data.id)
-        await alert('Login successful!')
-        await window.location.replace('../Group/group.html')
+        const loginCredentials = {
+            email: emailInput.value,
+            password: passwordInput.value
+        }
+        const serverResponse = await axios.post(`${url}/login`, loginCredentials)
+        updateDom(serverResponse.data.message)
+        if (serverResponse.data.success === "true") {
+            localStorage.setItem("token", serverResponse.data.token)
+            localStorage.setItem("username", serverResponse.data.username)
+            //setTimeout(() => {
+            window.location.href = "../index/index.html"
+            //}, 2000)
+        }
+    } catch (error) {
+        console.log(error.response.data.message)
+        updateDom(error.response.data.message)
     }
 }
-catch(err){
-    console.log(err);
-    msg.innerHTML=""
-  msg.innerHTML+=`<div style="font-weight:bold;color:red;">${err.response.data.message}</div>`;
-  setTimeout(()=>{
-    msg.innerHTML="";
-},3000)
-}
+function updateDom(user) {
+    msg.innerHTML = ""
+    msg.innerHTML+=`<div>${user}</div>`
+    setTimeout(()=>{
+        msg.innerHTML = ""
+    },3000)
+   
+
 }
