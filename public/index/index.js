@@ -34,11 +34,11 @@ window.addEventListener("DOMContentLoaded", async () => {
 form.addEventListener("submit", sendChat)
 
 createGroup.addEventListener("click", () => {
-    window.location.href = "../group/group.html"
+    window.location.href = "../Group/group.html"
 })
 
 addMemberBtn.addEventListener("click", () => {
-    window.location.href = "../member/member.html"
+    window.location.href = "../Member/member.html"
 })
 
 async function displayGroupOnLoad() {
@@ -227,6 +227,6 @@ uploadbtn.addEventListener('click',uploadFile);
 
 logOut.addEventListener("click", () => {
     localStorage.clear();
-    window.location.href = "../login/login.html"
+    window.location.href = "../Login/login.html"
 })
 

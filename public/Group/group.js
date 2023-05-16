@@ -5,7 +5,7 @@ const closeBtn = document.getElementById("close-btn")
 const url = "http://52.54.87.89:3000"
 
 closeBtn.addEventListener("click", () => {
-    window.location.href = "../index/index.html"
+    window.location.href = "../Index/index.html"
 })
 
 form.addEventListener("submit", addGroup)
@@ -22,7 +22,7 @@ async function addGroup(e) {
         console.log(serverResponse)
         if (serverResponse.status === 200) {
             alert("Create Group Success")
-            window.location.href = "../index/index.html"
+            window.location.href = "../Index/index.html"
         }
     } catch (error) {
         console.log(error)

@@ -13,7 +13,7 @@ async function login(e) {
         e.preventDefault();
         const token = localStorage.getItem("token")
         if (token) {
-            window.location.href = "../index/index.html"
+            window.location.href = "../Index/index.html"
         }
         const loginCredentials = {
             email: emailInput.value,
@@ -25,7 +25,7 @@ async function login(e) {
             localStorage.setItem("token", serverResponse.data.token)
             localStorage.setItem("username", serverResponse.data.username)
             //setTimeout(() => {
-            window.location.href = "../index/index.html"
+            window.location.href = "../Index/index.html"
             //}, 2000)
         }
     } catch (error) {

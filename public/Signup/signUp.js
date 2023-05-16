@@ -21,7 +21,7 @@ async function onSubmit(e) {
         console.log(serverResponse)
         if (serverResponse.data.status === "success") {
             updateDom(serverResponse.data.message)
-            window.location.href = "../login/login.html"
+            window.location.href = "../Login/login.html"
 
         } else {
 

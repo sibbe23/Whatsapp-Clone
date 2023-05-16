@@ -3,7 +3,7 @@ const emailInput = document.getElementById("email")
 const closeBtn = document.getElementById("close-btn")
 const url = "http://52.54.87.89:3000"
 closeBtn.addEventListener("click", () => {
-    window.location.href = "../index/index.html"
+    window.location.href = "../Index/index.html"
 })
 
 form.addEventListener("submit", addMember)
@@ -22,7 +22,7 @@ async function addMember(e) {
             newMemberData,
             { headers: { "Authorization": token } })
         if (serverResponse.status === 200) {
-            window.location.href = "../index/index.html"
+            window.location.href = "../Index/index.html"
         }
     } catch (error) {
         console.log(error)
