@@ -9,7 +9,5 @@ router.get("/admin/getAllMembers/:groupId", userAuthorization.authenticate, admi
 router.post("/admin/makeAdmin", userAuthorization.authenticate, adminControllers.makeAdmin)
 router.post("/admin/removeAdmin", userAuthorization.authenticate, adminControllers.removeAdmin)
 router.post("/admin/removeUser", userAuthorization.authenticate, adminControllers.removeUser)
-router.get('/admin/getall',userAuthorization.authenticate, adminControllers.getAll)
-
 
 module.exports = router

@@ -15,13 +15,12 @@ exports.forgetPassword = async (req, res) => {
     try {
         const { email } = req.body
         const user = await User.findOne({ where: { email: email } })
-        console.log(user)
         if (user) {
             const id = uuid.v4()
             await user.createForgetpassword({ id, isActive: true })
             const sender = {
-                email: "sibbe.sharpener@gmail.com",
-                name: "Team Chatsy"
+                email: "work.erpraveen@gmail.com",
+                name: "Expense Traker Team"
             }
             const recievers = [{
                 email: user.email,
@@ -30,13 +29,12 @@ exports.forgetPassword = async (req, res) => {
             await tranEmailApi.sendTransacEmail({
                 sender,
                 to: recievers,
-                subject: "Chatsy : OTP ",
-                textContent: `<a href="http://52.54.87.89:3000/password/resetpassword/${id}">Reset password</a>`
+                subject: "Expense Tracker : OTP ",
+                textContent: `<a href="https://whatschatappa.onrender.com/password/resetpassword/${id}">Reset password</a>`
             })
         }
-        res.status(200).json({ res: "Link sent!" })
+        res.status(200).json({ res: "link to rest password has been sent to your email.!!" })
     } catch (err) {
-        console.log(err)
         res.status(500).json({ err: err })
     }
 }
@@ -44,7 +42,6 @@ exports.forgetPassword = async (req, res) => {
 exports.resetPassword = async (req, res) => {
     try {
         const id = req.params.id;
-        console.log(id)
         const forgetPasswordReq = await Forgetpassword.findOne({ where: { id: id, isActive: true } })
         if (forgetPasswordReq) {
             await forgetPasswordReq.update({ isActive: false })
@@ -52,7 +49,6 @@ exports.resetPassword = async (req, res) => {
                                     <script>
                                         function formsubmitted(e){
                                             e.preventDefault();
-                                            console.log('called')
                                         }
                                     </script>
                                     <form action="/password/updatepassword/${id}" method="get">
@@ -72,7 +68,6 @@ exports.updatePassword = async (req, res) => {
         const { newpassword } = req.query
         const { resetpasswordid } = req.params
         const resetpasswordrequest = await Forgetpassword.findOne({ where: { id: resetpasswordid } })
-        console.log(resetpasswordrequest.userId)
         const user = await User.findOne({ where: { id: resetpasswordrequest.userId } })
 
         if (user) {

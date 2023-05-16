@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WhatsChat</title>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="../apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../favicon-16x16.png"
+    />
+    <link rel="manifest" href="../site.webmanifest" />
+    <link rel="stylesheet" href="main.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.3/axios.min.js"></script>
+    <script src="https://cdn.socket.io/4.1.3/socket.io.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="group-container">
+        <div class="logout">
+          <span id="current-user">Username</span>
+          <button id="logout-btn">Logout</button>
+        </div>
+        <button id="create-group-btn">Create Group</button>
+        <ul id="group-list"></ul>
+      </div>
+      <div class="chatbox">
+        <div class="chatbox-header">
+          Chat Box
+          <div class="add-member-btn">
+            <button id="add-member">Add Member</button>
+          </div>
+          <div class="show-members-btn">
+            <button id="show-members">Show Members</button>
+          </div>
+        </div>
+        <div class="chatbox-messages">
+          <div class="chatbox-message"></div>
+          <div class="chatbox-message sent" id="chatbox-message-sent"></div>
+        </div>
+        <div>
+          <form id="form">
+            <div class="chatbox-input">
+              <input
+                type="text"
+                placeholder="Type your message..."
+                id="new-message"
+                required
+              />
+              <button>Send</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="members-container">
+        <h3>Members</h3>
+        <ul class="members-list">
+          <li>hii</li>
+        </ul>
+      </div>
+    </div>
+  </body>
+  <script src="main.js"></script>
+</html>

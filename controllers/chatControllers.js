@@ -1,9 +1,5 @@
 const Message = require("../models/message")
 const { Op } = require("sequelize")
-const AWS=require('aws-sdk');
-const User = require('../models/user')
-
-
 
 exports.postChat = async (req, res) => {
     try {
@@ -12,8 +8,8 @@ exports.postChat = async (req, res) => {
         if (message === "") {
             return res.status(401).json({ message: "invalid message", success: "false" })
         }
-        const newMessage = await user.createMessage({ message: message, groupId: groupId, sender: req.user.name })
-        res.status(200).json({ success: "true", name: user.name, message: newMessage.message, })
+        const newMessage = await user.createMessage({ message: message, groupId: groupId, from: req.user.name })
+        res.status(200).json({ success: "true", name: user.name, message: newMessage.message, room: groupId })
     } catch (error) {
         res.status(500).json({ success: "false", error })
     }
@@ -32,45 +28,33 @@ exports.fetchChat = async (req, res) => {
     }
 }
 
-function uploadToS3(file){
+exports.archiveChat = async () => {
+    // Calculate the date 1 day ago
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
 
-    const BUCKET_NAME= process.env.AWS_BUCKET_NAME;
-    const IAM_USER_KEY= process.env.AWS_KEY_ID;
-    const  IAM_USER_SECRET= process.env.AWS_SECRET_KEY;
-
-    let s3bucket=new AWS.S3({
-        accessKeyId: IAM_USER_KEY,
-        secretAccessKey:IAM_USER_SECRET,
-    })
-     var params={
-            Bucket:BUCKET_NAME,
-            Key:file.name,
-            Body:file.data,
-            ACL:'public-read'
+    // Find all the messages in the Chat table that are 1 day old
+    const messages = await Message.findAll({
+        where: {
+            createdAt: {
+                [Op.lt]: yesterday
+            }
         }
-       return new Promise((resolve, reject) => {
-            s3bucket.upload(params,(err,s3response)=>{
-                if(err){
-                    console.log("SOMETHING WENT WRONG",err)
-                    reject(err);
-                } 
-                else{
-                    resolve(s3response.Location)
-                    }
-                })
-       })      
+    });
 
+    // Move the messages to the ArchivedChat table
+    await ArchivedChat.bulkCreate(messages.map(m => ({
+        message: m.message,
+        from: m.from,
+        groupId: m.groupId
+    })));
 
-}
-exports.uploadFile=async(req,res,next)=>{
-    try{
-        const file = req.files.file
-        const fileName = file.name;
-        const fileURL= await uploadToS3(file);
-        const user = await Message.create({message:fileURL,sender:fileName});
-        res.status(200).json({message:user,success:true})
-    }catch(err){
-        console.log(err);
-        res.status(500).json({message:"Something went Wrong",err:err,success:false})
-    }
+    // Delete the messages from the Chat table
+    await Message.destroy({
+        where: {
+            createdAt: {
+                [Op.lt]: yesterday
+            }
+        }
+    });
 }

@@ -4,17 +4,18 @@ const passwordInput = document.getElementById('password')
 const form = document.getElementById('login-form')
 const msg = document.getElementById("msg-new")
 const response = document.getElementById("response")
-const url = "http://52.54.87.89:3000"
+const url = "https://whatschatappa.onrender.com"
 
+const token = localStorage.getItem("token")
+if (token) {
+    window.location.href = "../main/main.html"
+}
 form.addEventListener("submit", login)
 
 async function login(e) {
     try {
         e.preventDefault();
-        const token = localStorage.getItem("token")
-        if (token) {
-            window.location.href = "../Index/index.html"
-        }
+
         const loginCredentials = {
             email: emailInput.value,
             password: passwordInput.value
@@ -25,20 +26,22 @@ async function login(e) {
             localStorage.setItem("token", serverResponse.data.token)
             localStorage.setItem("username", serverResponse.data.username)
             //setTimeout(() => {
-            window.location.href = "../Index/index.html"
+            window.location.href = "../main/main.html"
             //}, 2000)
         }
     } catch (error) {
         console.log(error.response.data.message)
         updateDom(error.response.data.message)
+        const forgotPasswordLink = document.createElement("a")
+        forgotPasswordLink.href = "../forgotpassword/forgotPassword.html";
+        forgotPasswordLink.textContent = "Forgot Password";
+        response.appendChild(forgotPasswordLink);
     }
 }
 function updateDom(user) {
     msg.innerHTML = ""
-    msg.innerHTML+=`<div>${user}</div>`
-    setTimeout(()=>{
-        msg.innerHTML = ""
-    },3000)
-   
+    const item = document.createElement("li")
+    item.textContent = user
+    msg.appendChild(item)
 
 }

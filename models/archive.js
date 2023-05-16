@@ -1,8 +1,7 @@
 const Sequelize = require("sequelize")
-
 const sequelize = require("../util/database")
 
-const Message = sequelize.define("message", {
+const ArchivedChat = sequelize.define("archived_chat", {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -17,7 +16,6 @@ const Message = sequelize.define("message", {
         type: Sequelize.STRING,
         allowNull: false
     }
-
 })
 
-module.exports = Message
+module.exports = ArchivedChat;

@@ -4,7 +4,7 @@ const forgetPasswordControllers = require("../controllers/forgetPasswordControll
 
 
 
-router.post("/password/forgotpassword", forgetPasswordControllers.forgetPassword)
+router.use("/password/forgotpassword", forgetPasswordControllers.forgetPassword)
 
 router.get("/password/resetpassword/:id", forgetPasswordControllers.resetPassword)
 

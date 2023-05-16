@@ -5,10 +5,11 @@ const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
 function validate(inputString) {
-    if (inputString == undefined || inputString.length === 0) 
-        return false 
-         else return true
-    
+    if (inputString == undefined || inputString.length === 0) {
+        return false
+    } else {
+        return true
+    }
 }
 exports.signup = async (req, res) => {
     try {
@@ -34,12 +35,11 @@ exports.signup = async (req, res) => {
             res.status(200).json({ message: "User created", status: "success" })
         })
     } catch (error) {
-        console.log(error)
         res.status(500).json({ error: error })
     }
 }
 function generateWebToken(id, name) {
-    return jwt.sign({ userId: id, name }, "secretkey")
+    return jwt.sign({ userId: id, name }, process.env.JWT_SECRET)
 }
 
 
@@ -50,11 +50,13 @@ exports.login = async (req, res) => {
             return res.status(400).json({ message: "Bad Parameters", success: "false" })
         }
         const user = await User.findOne({ where: { email: email } })
-        //console.log(user)
         if (user) {
             bcrypt.compare(password, user.password, (err, result) => {
-                if (result === true) res.status(200).json({ message: "Login Success", success: "true", token: generateWebToken(user.id, user.name), username: user.name })
-                 else  res.status(401).json({ message: "Password is Incorrect", success: "false" })
+                if (result === true) {
+                    res.status(200).json({ message: "Login Success", success: "true", token: generateWebToken(user.id, user.name), username: user.name })
+                } else {
+                    res.status(401).json({ message: "Password is Incorrect", success: "false" })
+                }
             })
         } else {
             res.status(404).json({ message: "user not found", success: "false" })
@@ -63,4 +65,3 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: error, message: "login failed" })
     }
 }
-
